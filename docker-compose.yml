@@ -1,0 +1,33 @@
+
+# Use postgres/example user/password credentials
+version: '3.4'
+
+services:
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: www-user
+      POSTGRES_PASSWORD: www-user
+      PGPASSWORD: www-user
+      POSTGRES_DB: www-user
+    volumes:
+      - "~/db:/var/lib/postgresql/data"
+
+  cfb_database:
+    build: .
+    restart: always
+    environment:
+      POSTGRES_DB_HOST: postgres
+      POSTGRES_DB_USERNAME: www-user
+      POSTGRES_DB_PASSWORD: www-user
+      POSTGRES_DB_PORT: 5432
+    ports:
+      - 8080:8080
+    volumes:
+      - "~/geonetwork:/usr/local/tomcat/webapps"
+
+volumes:
+  db:
+  geonetwork:
